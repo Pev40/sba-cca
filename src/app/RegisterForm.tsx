@@ -15,6 +15,7 @@ const RegistroForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [openModal, setOpenModal] = useState(false); // Estado para controlar la apertura del modal
+  const [modalMessage, setModalMessage] = useState(''); // Estado para el mensaje del modal
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -79,6 +80,7 @@ const RegistroForm = () => {
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
+    setLoading(true);
     try {
       const response = await fetch('/api/register', {
         method: 'POST',
@@ -91,12 +93,23 @@ const RegistroForm = () => {
       const data = await response.json();
 
       if (response.ok) {
-        setOpenModal(true); // Abrir el modal si el registro es exitoso
+        // Si el registro es exitoso, muestra un modal con el mensaje correspondiente
+        setModalMessage('El usuario ha sido registrado correctamente y se ha enviado un correo de confirmación.');
+        setOpenModal(true);
+      } else if (data.message === 'El RUC/DNI ya está registrado') {
+        // Si el usuario ya está registrado, muestra un mensaje en el modal
+        setModalMessage('El RUC/DNI ya está registrado en el sistema.');
+        setOpenModal(true);
       } else {
-        alert(`Error: ${data.message}`);
+        // Cualquier otro error
+        setModalMessage(`Error: ${data.message}`);
+        setOpenModal(true);
       }
     } catch (error) {
-      console.error('Error al enviar los datos:', error);
+      setModalMessage('Error al enviar los datos. Inténtalo de nuevo.');
+      setOpenModal(true);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -197,7 +210,7 @@ const RegistroForm = () => {
           onChange={handleChange}
           required
           fullWidth
-          disabled={loading }
+          disabled={loading}
         />
 
         <Button variant="contained" color="primary" fullWidth type="submit" disabled={loading}>
@@ -205,12 +218,12 @@ const RegistroForm = () => {
         </Button>
       </Box>
 
-      {/* Modal para mostrar éxito en el registro */}
+      {/* Modal para mostrar el resultado del registro */}
       <Dialog open={openModal} onClose={handleCloseModal}>
-        <DialogTitle>Registro Exitoso</DialogTitle>
+        <DialogTitle>Información</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            El usuario ha sido registrado correctamente y se ha enviado un correo de confirmación.
+            {modalMessage}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

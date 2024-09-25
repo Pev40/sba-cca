@@ -12,21 +12,37 @@ interface RegistroRequest {
   empresa: string;
 }
 
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const { ruc_dni, nombre_completo, correo_contacto, telefono_contacto, empresa } = req.body as RegistroRequest;
 
+    // Verifica que todos los campos requeridos están presentes
     if (!ruc_dni || !nombre_completo || !correo_contacto || !telefono_contacto) {
       return res.status(400).json({ message: 'Todos los campos son requeridos' });
     }
 
     try {
-      // Inserta los datos en la base de datos utilizando el conector de Vercel
+      // Comprobar si el RUC/DNI ya existe en la base de datos
+      const result = await sql`
+        SELECT ruc_dni FROM contacto WHERE ruc_dni = ${ruc_dni}
+      `;
+      const existingRecord = result.rows[0];
+
+      if (existingRecord) {
+        // Si ya existe, retorna un error
+        return res.status(409).json({ message: 'El RUC/DNI ya está registrado' });
+      }
+
+      // Si no existe, inserta los datos en la base de datos
       await sql`
         INSERT INTO contacto (ruc_dni, nombre_completo, correo_contacto, telefono_contacto, empresa)
         VALUES (${ruc_dni}, ${nombre_completo}, ${correo_contacto}, ${telefono_contacto}, ${empresa})
       `;
+
+      // Enviar correo al contacto registrado
       await enviarCorreo(correo_contacto, nombre_completo);
+
       res.status(201).json({ message: 'Usuario registrado y correo enviado' });
     } catch (err) {
       console.error('Error al procesar la solicitud:', err);
