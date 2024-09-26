@@ -3,7 +3,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { sql } from '@vercel/postgres'; // Importa el conector de Vercel para PostgreSQL
 import nodemailer from 'nodemailer';
-
+import path from 'path';
 interface RegistroRequest {
   ruc_dni: string;
   nombre_completo: string;
@@ -58,7 +58,12 @@ interface MailOptions {
   from: string;
   to: string;
   subject: string;
-  text: string;
+  html: string;
+  attachments: Array<{
+    filename: string;
+    path: string;
+    cid: string;
+  }>;
 }
 
 interface SMTPTransportOptions {
@@ -88,11 +93,31 @@ async function enviarCorreo(correo: string, nombre: string) {
     }
   } as SMTPTransportOptions);
 
+  // Definir la ruta de la imagen
+  const imagePath = path.join(process.cwd(), 'public/afichecorreo.jpg');
+
+
   const mailOptions = {
     from: 'tecnologias_informacion@sbarequipa.org.pe',
     to: correo,
-    subject: 'Registro Exitoso',
-    text: `Hola ${nombre}, gracias por registrarte en nuestra plataforma.`
+    subject: '¡Registro Exitoso en Ayúdame a Ayudar!',
+    html: `
+      <div style="font-family: Arial, sans-serif; color: #333; text-align: center;">
+        <h1 style="color: #0056b3;">¡Gracias por Registrarte, ${nombre}!</h1>
+        <p>Nos alegra tenerte como parte de nuestra comunidad. A través de tu registro, estás ayudando a mejorar la vida de muchas personas en nuestra región.</p>
+        <img src="cid:aficheCorreo" alt="Afiche Ayúdame a Ayudar" style="max-width: 100%; height: auto;"/>
+        <p>Gracias por asistir a nuestro evento en la Cámara de Comercio de Arequipa. ¡Juntos podemos hacer una gran diferencia!</p>
+        <p style="font-weight: bold;">Atentamente,</p>
+        <p>Sociedad de Beneficencia de Arequipa</p>
+      </div>
+    `,
+    attachments: [
+      {
+        filename: 'aficheCorreo.jpg',
+        path: imagePath,  // Ruta a la imagen cargada
+        cid: 'aficheCorreo' // Referencia para usar la imagen en el HTML
+      }
+    ]
   } as MailOptions;
 
   return new Promise((resolve, reject) => {
