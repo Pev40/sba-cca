@@ -5,6 +5,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "SBA Camara de Comercio",
   description: "SBA Camara de Comercio",
+  icons: {
+    icon: "public\LOGO_fondo_blanco.ico",
+  },
 };
 
 export default function RootLayout({

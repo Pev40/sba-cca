@@ -95,6 +95,8 @@ async function enviarCorreo(correo: string, nombre: string) {
 
   // Definir la ruta de la imagen
   const imagePath = path.join(process.cwd(), 'public/afichecorreo.jpg');
+  // Definir la ruta de la imagen y el PDF
+  const pdfPath = path.join(process.cwd(), 'public/Régimen tributario de Donaciones - Cartilla Informativa.pdf');
 
 
   const mailOptions = {
@@ -116,6 +118,11 @@ async function enviarCorreo(correo: string, nombre: string) {
         filename: 'aficheCorreo.jpg',
         path: imagePath,  // Ruta a la imagen cargada
         cid: 'aficheCorreo' // Referencia para usar la imagen en el HTML
+      },
+      {
+        filename: 'Régimen tributario de Donaciones - Cartilla Informativa.pdf',
+        path: pdfPath,  // Ruta del PDF
+        contentType: 'application/pdf'
       }
     ]
   } as MailOptions;
