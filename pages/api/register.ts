@@ -109,6 +109,12 @@ async function enviarCorreo(correo: string, nombre: string) {
         <p>Nos alegra tenerte como parte de nuestra comunidad. A través de tu registro, estás ayudando a mejorar la vida de muchas personas en nuestra región.</p>
         <img src="cid:aficheCorreo" alt="Afiche Ayúdame a Ayudar" style="max-width: 100%; height: auto;"/>
         <p>Gracias por asistir a nuestro evento en la Cámara de Comercio de Arequipa. ¡Juntos podemos hacer una gran diferencia!</p>
+        <p style="font-weight: bold;">Mira este video para conocer más:</p>
+        <a href="https://www.youtube.com/watch?v=xFHTmz9EgE4" target="_blank">
+          <img src="https://img.youtube.com/vi/xFHTmz9EgE4/hqdefault.jpg" 
+               alt="Ver video en YouTube" 
+               style="max-width: 100%; height: auto;"/>
+        </a>
         <p style="font-weight: bold;">Atentamente,</p>
         <p>Sociedad de Beneficencia de Arequipa</p>
       </div>

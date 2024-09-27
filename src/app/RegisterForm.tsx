@@ -96,10 +96,25 @@ const RegistroForm = () => {
         // Si el registro es exitoso, muestra un modal con el mensaje correspondiente
         setModalMessage('El usuario ha sido registrado correctamente y se ha enviado un correo de confirmación.');
         setOpenModal(true);
+        // Borra la información del formulario
+        setFormData({
+          ruc_dni: '',
+          nombre_completo: '',
+          correo_contacto: '',
+          telefono_contacto: '',
+          empresa: ''
+        });
       } else if (data.message === 'El RUC/DNI ya está registrado') {
         // Si el usuario ya está registrado, muestra un mensaje en el modal
         setModalMessage('El RUC/DNI ya está registrado en el sistema.');
         setOpenModal(true);
+        setFormData({
+          ruc_dni: '',
+          nombre_completo: '',
+          correo_contacto: '',
+          telefono_contacto: '',
+          empresa: ''
+        });
       } else {
         // Cualquier otro error
         setModalMessage(`Error: ${data.message}`);
@@ -117,7 +132,12 @@ const RegistroForm = () => {
   const handleCloseModal = () => {
     setOpenModal(false);
   };
-
+  // Detectar "Enter" para ejecutar la consulta
+  const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter' && formData.ruc_dni.length >= 8 && !loading) {
+      handleConsultar();
+    }
+  };
   return (
     <Container
       maxWidth="sm"
@@ -155,6 +175,7 @@ const RegistroForm = () => {
             name="ruc_dni"
             value={formData.ruc_dni}
             onChange={handleChange}
+            onKeyPress={handleKeyPress} // Detecta cuando se presiona Enter
             required
             fullWidth
             disabled={loading}
