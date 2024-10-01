@@ -102,7 +102,7 @@ async function enviarCorreo(correo: string, nombre: string) {
   const mailOptions = {
     from: 'Ayudame a Ayudar 👵🥹👶 - Sociedad de Beneficencia de Arequipa',
     to: correo,
-    subject: '¡Registro Exitoso en Ayúdame a Ayudar!',
+    subject: '¡Ayudame a Ayudar 👵🥹👶 - Sociedad de Beneficencia de Arequipa!',
     html: `
       <div style="font-family: Arial, sans-serif; color: #333; text-align: center;">
         <h1 style="color: #0056b3;">¡Gracias por Registrarte, ${nombre}!</h1>
