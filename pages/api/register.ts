@@ -100,7 +100,7 @@ async function enviarCorreo(correo: string, nombre: string) {
 
 
   const mailOptions = {
-    from: 'tecnologias_informacion@sbarequipa.org.pe',
+    from: 'Ayudame a Ayudar 👵🥹👶 - Sociedad de Beneficencia de Arequipa',
     to: correo,
     subject: '¡Registro Exitoso en Ayúdame a Ayudar!',
     html: `
