@@ -85,7 +85,7 @@ async function enviarCorreo(correo: string, nombre: string) {
     port: 587,
     secure: false,  // True para 465, false para otros puertos
     auth: {
-      user: 'tecnologias_informacion@sbarequipa.org.pe',
+      user: 'donacion@sbarequipa.org.pe',
       pass: 'Sbarequipa141*'
     },
     tls: {
@@ -110,8 +110,8 @@ async function enviarCorreo(correo: string, nombre: string) {
         <img src="cid:aficheCorreo" alt="Afiche Ayúdame a Ayudar" style="max-width: 100%; height: auto;"/>
         <p>Gracias por asistir a nuestro evento en la Cámara de Comercio de Arequipa. ¡Juntos podemos hacer una gran diferencia!</p>
         <p style="font-weight: bold;">Mira este video para conocer más:</p>
-        <a href="https://www.youtube.com/watch?v=xFHTmz9EgE4" target="_blank">
-          <img src="https://img.youtube.com/vi/xFHTmz9EgE4/hqdefault.jpg" 
+        <a href="https://www.youtube.com/watch?v=LL1DVl4l3ho" target="_blank">
+          <img src="https://img.youtube.com/vi/LL1DVl4l3ho/hqdefault.jpg"
                alt="Ver video en YouTube" 
                style="max-width: 100%; height: auto;"/>
         </a>
